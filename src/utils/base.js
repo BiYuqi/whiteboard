@@ -1,3 +1,19 @@
+export function adaptEvent (isMobile) {
+  if (isMobile) {
+    return {
+      start: 'touchstart',
+      move: 'touchmove',
+      end: 'touchend'
+    }
+  }
+
+  return {
+    start: 'mousedown',
+    move: 'mousemove',
+    end: 'mouseup'
+  }
+}
+
 const getWidthHeight = (ctx) => {
   // const { width, height } = window.getComputedStyle(ctx, null)
   return {
@@ -18,4 +34,10 @@ export function adaptRetinaScreen (ctx, context, devicePixelRatio) {
     ctx.width = width
     ctx.height = height
   }
+}
+
+export function initialCanvasProperty (context, data) {
+  Object.keys(data).forEach(item => {
+    context[item] = data[item]
+  })
 }

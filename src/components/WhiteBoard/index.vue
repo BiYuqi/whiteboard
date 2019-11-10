@@ -4,9 +4,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { initialCanvasProperty } from '../../utils/initialCanvasProperty'
-import { adaptRetinaScreen } from '../../utils/adaptRetinaScreen'
-import { adaptEvent } from '../../utils/adaptEvent'
+import { initialCanvasProperty, adaptRetinaScreen, adaptEvent } from '../../utils/base'
 export default {
   computed: {
     ...mapState([
