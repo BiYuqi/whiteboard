@@ -3,9 +3,9 @@
     <div class="tool-box__inner">
       <brush-panel />
       <div class="tool-box__split-part"></div>
-      <color-picker />
-      <div class="tool-box__split-part"></div>
       <setting-part />
+      <div class="tool-box__split-part"></div>
+      <color-picker />
       <div class="tool-box__split-part"></div>
       <concat-me />
     </div>

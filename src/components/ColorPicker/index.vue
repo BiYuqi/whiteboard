@@ -45,23 +45,35 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   data () {
     return {
       pencilColor: this.$store.state.currentBrushColor,
       canvasColor: this.$store.state.currentCanvasColor,
+      pencilSize: this.$store.state.currentBrushSize,
       predefineColors: [
         '#ff4500',
+        '#66CDAA',
         '#ff8c00',
         '#ffd700',
         '#90ee90',
         '#00ced1',
         '#1e90ff',
-        '#c71585'
-      ],
-      pencilSize: this.$store.state.currentBrushSize
+        '#c71585',
+        '#008B8B',
+        '#0000FF',
+        '#006400',
+        '#000000',
+        '#ffffff'
+      ]
     }
+  },
+  computed: {
+    ...mapState([
+      'ctx',
+      'context'
+    ])
   },
   methods: {
     ...mapMutations([
@@ -73,6 +85,8 @@ export default {
       this.setCurrentBrushColor(color)
     },
     handleCanvasColor (color) {
+      this.context.fillStyle = color
+      this.context.fillRect(0, 0, this.ctx.width, this.ctx.height)
       this.setCurrentCanvasColor(color)
     },
     handleChange (size) {

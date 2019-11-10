@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -32,18 +31,6 @@ export default {
           tip: 'Github Issue'
         }
       ]
-    }
-  },
-  computed: {
-    ...mapState([
-      'ctx'
-    ])
-  },
-  methods: {
-    handleCommand (command) {
-      console.log('Click on ' + command)
-      this.ctx.fillStyle = 'red'
-      console.log(this.ctx)
     }
   }
 }

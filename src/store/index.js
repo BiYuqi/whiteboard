@@ -48,9 +48,15 @@ const mutations = {
   }
 }
 
+const getters = {
+  ctx: state => state.ctx,
+  context: state => state.context
+}
+
 const store = new Vuex.Store({
   state,
-  mutations
+  mutations,
+  getters
 })
 
 export default store

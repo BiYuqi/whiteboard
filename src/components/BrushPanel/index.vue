@@ -4,7 +4,6 @@
       class="tool-box__item"
       placement="top"
       title="Select Brush"
-      width="300"
       trigger="hover">
       <brush-type />
       <svg-icon slot="reference" name="brush-size" :styles="$store.state.svgInfo" />
