@@ -10,8 +10,9 @@ import {
   ColorPicker,
   Tooltip,
   Slider,
-  Dialog,
-  Button
+  Popover,
+  Button,
+  InputNumber
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -25,8 +26,9 @@ Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Slider)
-Vue.use(Dialog)
+Vue.use(Popover)
 Vue.use(Button)
+Vue.use(InputNumber)
 
 new Vue({
   router,

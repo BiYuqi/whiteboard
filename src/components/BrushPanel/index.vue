@@ -1,41 +1,36 @@
 <template>
   <div class="tool-box__draw">
-    <template v-for="(item, index) in toolBox">
-      <el-tooltip
-        class="tool-box__item"
-        :key="index"
-        effect="dark"
-        :content="item.tip"
-        placement="top"
-        :class="{active: $store.state.currentBrush === item.name}"
-        @click.native="setBrush(item.name)">
-        <svg-icon :name="item.name" :styles="$store.state.svgInfo" />
-      </el-tooltip>
-    </template>
-    <el-dialog
-      title="Set your pencil"
-      :visible.sync="dialogVisible"
-      :modal="false">
-      <brush-size />
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handleBrushSizeEvent">Ok</el-button>
-      </span>
-    </el-dialog>
+    <el-popover
+      class="tool-box__item"
+      placement="top"
+      title="Select Brush"
+      width="300"
+      trigger="hover">
+      <brush-type />
+      <svg-icon slot="reference" name="brush-size" :styles="$store.state.svgInfo" />
+    </el-popover>
+    <div class="tool-box__split-part"></div>
+    <el-tooltip
+      class="tool-box__item"
+      v-for="(item, index) in toolBox"
+      :key="index"
+      effect="dark"
+      :content="item.tip"
+      placement="top"
+      :class="{active: $store.state.currentBrush === item.name}"
+      @click.native="setBrush(item.name)">
+      <svg-icon :name="item.name" :styles="$store.state.svgInfo" />
+    </el-tooltip>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import BrushSize from '../BrushSize'
+import BrushType from '../BrushType'
 export default {
   data () {
     return {
       toolBox: [
-        {
-          name: 'brush-size',
-          tip: 'Pencil Size'
-        },
         {
           name: 'pencil',
           tip: 'Pencil'
@@ -45,15 +40,14 @@ export default {
           tip: 'Line'
         },
         {
-          name: 'undo',
-          tip: 'Undo'
-        },
-        {
           name: 'eraser',
           tip: 'Eraser'
+        },
+        {
+          name: 'undo',
+          tip: 'Undo'
         }
-      ],
-      dialogVisible: false
+      ]
     }
   },
   computed: {
@@ -66,17 +60,13 @@ export default {
       'setCurrentBrush'
     ]),
     setBrush (name) {
-      if (name === 'brush-size') {
-        this.dialogVisible = true
+      if (!['undo', 'brush-size'].includes(name)) {
+        this.setCurrentBrush(name)
       }
-      this.setCurrentBrush(name)
-    },
-    handleBrushSizeEvent () {
-
     }
   },
   components: {
-    BrushSize
+    BrushType
   }
 }
 </script>
@@ -84,6 +74,10 @@ export default {
 <style lang="scss">
 @import '../../styles/common.scss';
 .tool-box {
+  &__draw {
+    display: flex;
+    align-items: center;
+  }
   &__item {
     cursor: pointer;
     color: $toolBoxColor;

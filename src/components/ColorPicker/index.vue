@@ -1,11 +1,47 @@
 <template>
-  <el-color-picker
-    v-model="color"
-    class="tool-box__color-picker"
-    size="small"
-    @change="handleBrushColor"
-    show-alpha>
-  </el-color-picker>
+  <div class="tool-box__color-picker-wrapper">
+    <el-tooltip
+      class="tool-box__item"
+      effect="dark"
+      content="Pencil Color"
+      placement="top">
+      <el-color-picker
+        v-model="pencilColor"
+        class="tool-box__color-picker"
+        size="mini"
+        @change="handleBrushColor"
+        show-alpha
+        :predefine="predefineColors">
+      </el-color-picker>
+    </el-tooltip>
+    <el-tooltip
+      class="tool-box__item"
+      effect="dark"
+      content="Canvas Color"
+      placement="top">
+      <el-color-picker
+        v-model="canvasColor"
+        class="tool-box__color-picker"
+        size="mini"
+        @change="handleCanvasColor"
+        show-alpha
+        :predefine="predefineColors">
+      </el-color-picker>
+    </el-tooltip>
+    <el-tooltip
+      class="tool-box__item"
+      effect="dark"
+      content="Pencil Size"
+      placement="top">
+      <el-input-number
+        v-model="pencilSize"
+        size="small"
+        controls-position="right"
+        @change="handleChange"
+        :min="1">
+      </el-input-number>
+    </el-tooltip>
+  </div>
 </template>
 
 <script>
@@ -13,15 +49,34 @@ import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
-      color: this.$store.state.currentBrushColor
+      pencilColor: this.$store.state.currentBrushColor,
+      canvasColor: this.$store.state.currentCanvasColor,
+      predefineColors: [
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585'
+      ],
+      pencilSize: this.$store.state.currentBrushSize
     }
   },
   methods: {
     ...mapMutations([
-      'setCurrentBrushColor'
+      'setCurrentBrushColor',
+      'setCurrentCanvasColor',
+      'setCurrentBrushSize'
     ]),
     handleBrushColor (color) {
       this.setCurrentBrushColor(color)
+    },
+    handleCanvasColor (color) {
+      this.setCurrentCanvasColor(color)
+    },
+    handleChange (size) {
+      this.setCurrentBrushSize(size)
     }
   }
 }
@@ -29,18 +84,35 @@ export default {
 
 <style lang="scss">
 .tool-box {
-  &__color-picker {
-    margin-left: 40px;
+  &__color-picker-wrapper {
+    display: flex;
+    align-items: center;
+  }
 
-    .el-color-picker__color {
-      border: none;
+  .el-input-number--small {
+    width: 80px;
+  }
+
+  .el-color-picker--mini {
+    height: 32px;
+    .el-color-picker__trigger {
+      width: 32px;
+      height: 32px;
     }
+  }
 
-    .el-color-picker__color-inner {
+  &__color-picker {
+    .el-color-picker__trigger {
       border-radius: 50%;
     }
 
-    .el-color-picker__trigger {
+    .el-color-picker__color {
+      border: none;
+      border-radius: 50%;
+    }
+
+    .el-color-picker__color-inner {
+      border: 1px solid #eee;
       border-radius: 50%;
     }
 
@@ -48,9 +120,11 @@ export default {
       background-image:none;
     }
 
-    .el-color-picker__icon {
-      display: none;
+    .el-icon-arrow-down:before {
+      position: absolute;
+      left: 50px;
     }
+
   }
 }
 </style>

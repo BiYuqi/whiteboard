@@ -1,39 +1,42 @@
 <template>
-  <el-dropdown @command="handleCommand" class="tool-box__setting-container">
-    <span class="tool-box__setting">
-      <svg-icon name="setting" :styles="{fontSize: '24px'}"></svg-icon>
-    </span>
-    <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item command="JPG">
-        <svg-icon
-          name="history"
-          :styles="$store.state.svgSettingInfo">
-        </svg-icon> History
-      </el-dropdown-item>
-      <el-dropdown-item command="PNG">
-        <svg-icon
-          name="download"
-          :styles="$store.state.svgSettingInfo">
-        </svg-icon> Download
-      </el-dropdown-item>
-    </el-dropdown-menu>
-  </el-dropdown>
+  <div class="tool-box__setting">
+    <el-tooltip
+      v-for="(tool, index) in toolBox"
+      :key="index"
+      class="tool-box__item"
+      effect="dark"
+      :content="tool.tip"
+      placement="top">
+      <svg-icon :name="tool.name" :styles="$store.state.svgInfo" />
+    </el-tooltip>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 export default {
+  data () {
+    return {
+      toolBox: [
+        {
+          name: 'delete',
+          tip: 'Clear Canvas'
+        },
+        {
+          name: 'download',
+          tip: 'Download as Image'
+        }
+        // {
+        //   name: 'history',
+        //   tip: 'History'
+        // }
+      ]
+    }
+  },
   computed: {
     ...mapState([
       'ctx'
     ])
-  },
-  methods: {
-    handleCommand (command) {
-      console.log('Click on ' + command)
-      this.ctx.fillStyle = 'red'
-      console.log(this.ctx)
-    }
   }
 }
 </script>

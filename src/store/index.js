@@ -6,9 +6,11 @@ const state = {
   isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
   devicePixelRatio: (window && window.devicePixelRatio) || 1,
   currentBrush: 'pencil',
-  currentBrushColor: 'rgba(28, 166, 129, 1)',
+  currentBrushSize: 14,
+  currentBrushColor: 'rgba(34, 34, 34, 1)',
+  currentCanvasColor: 'rgba(255, 255, 255, 1)',
   svgInfo: {
-    fontSize: '30px'
+    fontSize: '28px'
   },
   svgSettingInfo: {
     fontSize: '16px'
@@ -31,6 +33,12 @@ const mutations = {
   },
   setCurrentBrushColor (state, status) {
     state.currentBrushColor = status
+  },
+  setCurrentCanvasColor (state, status) {
+    state.currentCanvasColor = status
+  },
+  setCurrentBrushSize (state, size) {
+    state.currentBrushSize = size
   },
   setCanvasInstance (state, canvas) {
     state.ctx = canvas
