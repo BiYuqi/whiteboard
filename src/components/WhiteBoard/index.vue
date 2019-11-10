@@ -3,9 +3,23 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import { initialCanvasProperty, adaptRetinaScreen, adaptEvent } from '../../utils/base'
 export default {
+  data () {
+    return {
+      isDrawing: false,
+      point: {}
+    }
+  },
+  watch: {
+    ctxInitialProperty: {
+      handler () {
+        initialCanvasProperty(this.context, this.ctxInitialProperty)
+      },
+      deep: true
+    }
+  },
   computed: {
     ...mapGetters([
       'ctx',
@@ -20,30 +34,38 @@ export default {
       'setCanvasInstance',
       'setCanvasContext'
     ]),
-    detchScreenChange () {
-      adaptRetinaScreen(this.ctx, this.context, this.devicePixelRatio)
-    },
     init () {
       const { start, move, end } = adaptEvent(this.isMobile)
+      const { left, top } = this.ctx.getBoundingClientRect()
       this.ctx.addEventListener(start, (e) => {
         e.preventDefault()
-        console.log('start')
+        this.isDrawing = true
+        this.point.x = e.clientX - left
+        this.point.y = e.clientY - top
+        if (this.isDrawing) {
+          this.context.beginPath()
+          this.context.moveTo(this.point.x, this.point.y)
+        }
       })
       this.ctx.addEventListener(move, (e) => {
         e.preventDefault()
-        console.log('move')
+        this.point.x = e.clientX - left
+        this.point.y = e.clientY - top
+        if (this.isDrawing) {
+          this.context.lineTo(this.point.x, this.point.y)
+          this.context.stroke()
+        }
       })
       this.ctx.addEventListener(end, () => {
-        console.log('end')
+        this.isDrawing = false
       })
     }
   },
   mounted () {
     this.setCanvasInstance(this.$refs.whiteboard)
     this.setCanvasContext(this.ctx.getContext('2d'))
-    initialCanvasProperty(this.context, this.ctxInitialProperty)
     adaptRetinaScreen(this.ctx, this.context, this.devicePixelRatio)
-    window.addEventListener('resize', this.detchScreenChange)
+    initialCanvasProperty(this.context, this.ctxInitialProperty)
     this.init()
   }
 }

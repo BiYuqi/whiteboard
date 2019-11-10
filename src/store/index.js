@@ -6,8 +6,7 @@ const state = {
   isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
   devicePixelRatio: (window && window.devicePixelRatio) || 1,
   currentBrush: 'pencil',
-  currentBrushSize: 14,
-  currentBrushColor: 'rgba(34, 34, 34, 1)',
+  currentBrushSize: 6,
   currentCanvasColor: 'rgba(255, 255, 255, 1)',
   svgInfo: {
     fontSize: '28px'
@@ -18,8 +17,8 @@ const state = {
   ctx: null,
   context: null,
   ctxInitialProperty: {
-    lineWidth: '',
-    fillStyle: '',
+    lineWidth: 6,
+    strokeStyle: 'rgba(34, 34, 34, 1)',
     lineCap: 'round',
     lineJoin: 'round',
     shadowBlur: 1,
@@ -31,8 +30,8 @@ const mutations = {
   setCurrentBrush (state, status) {
     state.currentBrush = status
   },
-  setCurrentBrushColor (state, status) {
-    state.currentBrushColor = status
+  setCurrentBrushColor (state, color) {
+    state.ctxInitialProperty.strokeStyle = color
   },
   setCurrentCanvasColor (state, status) {
     state.currentCanvasColor = status

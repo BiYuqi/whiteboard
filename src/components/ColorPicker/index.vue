@@ -49,7 +49,7 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   data () {
     return {
-      pencilColor: this.$store.state.currentBrushColor,
+      pencilColor: this.$store.state.ctxInitialProperty.strokeStyle,
       canvasColor: this.$store.state.currentCanvasColor,
       pencilSize: this.$store.state.currentBrushSize,
       predefineColors: [
