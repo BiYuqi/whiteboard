@@ -50,7 +50,10 @@ const mutations = {
 
 const getters = {
   ctx: state => state.ctx,
-  context: state => state.context
+  context: state => state.context,
+  isMobile: state => state.isMobile,
+  ctxInitialProperty: state => state.ctxInitialProperty,
+  devicePixelRatio: state => state.devicePixelRatio
 }
 
 const store = new Vuex.Store({

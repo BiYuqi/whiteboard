@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { initialCanvasProperty, adaptRetinaScreen, adaptEvent } from '../../utils/base'
 export default {
   computed: {
-    ...mapState([
+    ...mapGetters([
       'ctx',
       'context',
       'isMobile',
