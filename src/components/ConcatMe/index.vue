@@ -7,10 +7,7 @@
       effect="dark"
       :content="tool.tip"
       placement="top">
-      <a href="https://github.com/BiYuqi/whiteboard" target="_blank">
-        <svg-icon :name="tool.name" :styles="$store.state.svgInfo" />
-      </a>
-      <a href="https://github.com/BiYuqi/whiteboard/issues/new" target="_blank">
+      <a :href="tool.link" target="_blank">
         <svg-icon :name="tool.name" :styles="$store.state.svgInfo" />
       </a>
     </el-tooltip>
@@ -24,11 +21,13 @@ export default {
       toolBox: [
         {
           name: 'github',
-          tip: 'Github'
+          tip: 'Github',
+          link: 'https://github.com/BiYuqi/whiteboard'
         },
         {
           name: 'message',
-          tip: 'Github Issue'
+          tip: 'Github Issue',
+          link: 'https://github.com/BiYuqi/whiteboard/issues/new'
         }
       ]
     }
