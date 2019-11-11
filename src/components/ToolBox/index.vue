@@ -38,6 +38,7 @@ export default {
   text-align: center;
   display: flex;
   justify-content: center;
+  background-color: #fff;
 
   &__inner {
     // box-shadow: 0 0 2px 1px rgba(0, 0, 0, .1);

@@ -5,17 +5,30 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import { initialCanvasProperty, adaptRetinaScreen, adaptEvent } from '../../utils/base'
+import { eraser } from '../../utils/eraser'
+import Normal from '../../utils/normal'
 export default {
   data () {
     return {
       isDrawing: false,
-      point: {}
+      point: {},
+      normal: null
     }
   },
   watch: {
     ctxInitialProperty: {
-      handler () {
+      handler (oldValue, newValue) {
         initialCanvasProperty(this.context, this.ctxInitialProperty)
+        // 橡皮檫
+        eraser({
+          currentBrush: this.currentBrush,
+          context: this.context,
+          strokeStyle: this.strokeStyle,
+          callback: () => {
+            this.setGlobalCompositeOperation('source-over')
+            this.setCurrentBrushColor(this.strokeStyle)
+          }
+        })
       },
       deep: true
     }
@@ -25,40 +38,28 @@ export default {
       'ctx',
       'context',
       'isMobile',
+      'strokeStyle',
       'ctxInitialProperty',
-      'devicePixelRatio'
+      'devicePixelRatio',
+      'currentBrush'
     ])
   },
   methods: {
     ...mapMutations([
       'setCanvasInstance',
-      'setCanvasContext'
+      'setCanvasContext',
+      'setCurrentBrushColor',
+      'setGlobalCompositeOperation'
     ]),
     init () {
+      this.normal = new Normal({
+        ctx: this.ctx,
+        context: this.context
+      })
       const { start, move, end } = adaptEvent(this.isMobile)
-      const { left, top } = this.ctx.getBoundingClientRect()
-      this.ctx.addEventListener(start, (e) => {
-        e.preventDefault()
-        this.isDrawing = true
-        this.point.x = e.clientX - left
-        this.point.y = e.clientY - top
-        if (this.isDrawing) {
-          this.context.beginPath()
-          this.context.moveTo(this.point.x, this.point.y)
-        }
-      })
-      this.ctx.addEventListener(move, (e) => {
-        e.preventDefault()
-        this.point.x = e.clientX - left
-        this.point.y = e.clientY - top
-        if (this.isDrawing) {
-          this.context.lineTo(this.point.x, this.point.y)
-          this.context.stroke()
-        }
-      })
-      this.ctx.addEventListener(end, () => {
-        this.isDrawing = false
-      })
+      this.ctx.addEventListener(start, (e) => { this.normal.start(e) }, false)
+      this.ctx.addEventListener(move, (e) => { this.normal.move(e) }, false)
+      this.ctx.addEventListener(end, () => { this.normal.end() }, false)
     }
   },
   mounted () {

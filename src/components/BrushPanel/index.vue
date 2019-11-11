@@ -24,8 +24,9 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import BrushType from '../BrushType'
+import { eraser } from '../../utils/eraser'
 export default {
   data () {
     return {
@@ -50,18 +51,32 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-      'ctx'
+    ...mapGetters([
+      'ctx',
+      'context',
+      'currentBrush',
+      'strokeStyle'
     ])
   },
   methods: {
     ...mapMutations([
-      'setCurrentBrush'
+      'setCurrentBrush',
+      'setGlobalCompositeOperation'
     ]),
     setBrush (name) {
       if (!['undo', 'brush-size'].includes(name)) {
         this.setCurrentBrush(name)
       }
+      // 橡皮檫
+      eraser({
+        currentBrush: this.currentBrush,
+        context: this.context,
+        strokeStyle: this.strokeStyle,
+        callback: () => {
+          this.setGlobalCompositeOperation('source-over')
+          this.setCurrentBrushColor(this.strokeStyle)
+        }
+      })
     }
   },
   components: {

@@ -6,7 +6,7 @@ const state = {
   isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
   devicePixelRatio: (window && window.devicePixelRatio) || 1,
   currentBrush: 'pencil',
-  currentBrushSize: 6,
+  currentBrushSize: 10,
   currentCanvasColor: 'rgba(255, 255, 255, 1)',
   svgInfo: {
     fontSize: '28px'
@@ -17,7 +17,8 @@ const state = {
   ctx: null,
   context: null,
   ctxInitialProperty: {
-    lineWidth: 6,
+    globalCompositeOperation: 'source-over',
+    lineWidth: 10,
     strokeStyle: 'rgba(34, 34, 34, 1)',
     lineCap: 'round',
     lineJoin: 'round',
@@ -32,12 +33,17 @@ const mutations = {
   },
   setCurrentBrushColor (state, color) {
     state.ctxInitialProperty.strokeStyle = color
+    state.ctxInitialProperty.shadowColor = color
   },
   setCurrentCanvasColor (state, status) {
     state.currentCanvasColor = status
   },
   setCurrentBrushSize (state, size) {
     state.currentBrushSize = size
+    state.ctxInitialProperty.lineWidth = size
+  },
+  setGlobalCompositeOperation (state, opt) {
+    state.ctxInitialProperty.globalCompositeOperation = opt
   },
   setCanvasInstance (state, canvas) {
     state.ctx = canvas
@@ -52,7 +58,9 @@ const getters = {
   context: state => state.context,
   isMobile: state => state.isMobile,
   ctxInitialProperty: state => state.ctxInitialProperty,
-  devicePixelRatio: state => state.devicePixelRatio
+  devicePixelRatio: state => state.devicePixelRatio,
+  strokeStyle: state => state.ctxInitialProperty.strokeStyle,
+  currentBrush: state => state.currentBrush
 }
 
 const store = new Vuex.Store({

@@ -53,6 +53,13 @@ export default {
       canvasColor: this.$store.state.currentCanvasColor,
       pencilSize: this.$store.state.currentBrushSize,
       predefineColors: [
+        '#FF0000',
+        '#FF7F00',
+        '#FFFF00',
+        '#00FF00',
+        '#00FFFF',
+        '#0000FF',
+        '#8B00FF',
         '#ff4500',
         '#66CDAA',
         '#ff8c00',
@@ -62,10 +69,9 @@ export default {
         '#1e90ff',
         '#c71585',
         '#008B8B',
-        '#0000FF',
         '#006400',
-        '#000000',
-        '#ffffff'
+        '#ffffff',
+        '#000000'
       ]
     }
   },
