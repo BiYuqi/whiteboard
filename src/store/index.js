@@ -16,7 +16,8 @@ const state = {
   },
   ctx: null,
   context: null,
-  ctxInitialProperty: {
+  instance: null,
+  contextConfig: {
     globalCompositeOperation: 'source-over',
     lineWidth: 10,
     strokeStyle: 'rgba(34, 34, 34, 1)',
@@ -32,24 +33,27 @@ const mutations = {
     state.currentBrush = status
   },
   setCurrentBrushColor (state, color) {
-    state.ctxInitialProperty.strokeStyle = color
-    state.ctxInitialProperty.shadowColor = color
+    state.contextConfig.strokeStyle = color
+    state.contextConfig.shadowColor = color
   },
   setCurrentCanvasColor (state, status) {
     state.currentCanvasColor = status
   },
   setCurrentBrushSize (state, size) {
     state.currentBrushSize = size
-    state.ctxInitialProperty.lineWidth = size
+    state.contextConfig.lineWidth = size
   },
   setGlobalCompositeOperation (state, opt) {
-    state.ctxInitialProperty.globalCompositeOperation = opt
+    state.contextConfig.globalCompositeOperation = opt
   },
   setCanvasInstance (state, canvas) {
     state.ctx = canvas
   },
   setCanvasContext (state, context) {
     state.context = context
+  },
+  setInstance (state, instance) {
+    state.instance = instance
   }
 }
 
@@ -57,10 +61,11 @@ const getters = {
   ctx: state => state.ctx,
   context: state => state.context,
   isMobile: state => state.isMobile,
-  ctxInitialProperty: state => state.ctxInitialProperty,
+  contextConfig: state => state.contextConfig,
   devicePixelRatio: state => state.devicePixelRatio,
-  strokeStyle: state => state.ctxInitialProperty.strokeStyle,
-  currentBrush: state => state.currentBrush
+  strokeStyle: state => state.contextConfig.strokeStyle,
+  currentBrush: state => state.currentBrush,
+  instance: state => state.instance
 }
 
 const store = new Vuex.Store({

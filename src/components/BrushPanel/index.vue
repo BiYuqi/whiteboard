@@ -61,6 +61,7 @@ export default {
   methods: {
     ...mapMutations([
       'setCurrentBrush',
+      'setCurrentBrushColor',
       'setGlobalCompositeOperation'
     ]),
     setBrush (name) {

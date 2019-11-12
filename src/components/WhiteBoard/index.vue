@@ -4,21 +4,13 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import { initialCanvasProperty, adaptRetinaScreen, adaptEvent } from '../../utils/base'
 import { eraser } from '../../utils/eraser'
-import Normal from '../../utils/normal'
+import Whiteboard from '../../utils/wb'
 export default {
-  data () {
-    return {
-      isDrawing: false,
-      point: {},
-      normal: null
-    }
-  },
   watch: {
-    ctxInitialProperty: {
+    contextConfig: {
       handler (oldValue, newValue) {
-        initialCanvasProperty(this.context, this.ctxInitialProperty)
+        this.instance.init(this.contextConfig)
         // 橡皮檫
         eraser({
           currentBrush: this.currentBrush,
@@ -37,9 +29,10 @@ export default {
     ...mapGetters([
       'ctx',
       'context',
+      'instance',
       'isMobile',
       'strokeStyle',
-      'ctxInitialProperty',
+      'contextConfig',
       'devicePixelRatio',
       'currentBrush'
     ])
@@ -48,26 +41,23 @@ export default {
     ...mapMutations([
       'setCanvasInstance',
       'setCanvasContext',
+      'setInstance',
       'setCurrentBrushColor',
       'setGlobalCompositeOperation'
-    ]),
-    init () {
-      this.normal = new Normal({
-        ctx: this.ctx,
-        context: this.context
-      })
-      const { start, move, end } = adaptEvent(this.isMobile)
-      this.ctx.addEventListener(start, (e) => { this.normal.start(e) }, false)
-      this.ctx.addEventListener(move, (e) => { this.normal.move(e) }, false)
-      this.ctx.addEventListener(end, () => { this.normal.end() }, false)
-    }
+    ])
   },
   mounted () {
     this.setCanvasInstance(this.$refs.whiteboard)
     this.setCanvasContext(this.ctx.getContext('2d'))
-    adaptRetinaScreen(this.ctx, this.context, this.devicePixelRatio)
-    initialCanvasProperty(this.context, this.ctxInitialProperty)
-    this.init()
+    const whiteboard = new Whiteboard({
+      ctx: this.ctx,
+      context: this.context,
+      config: { ...this.contextConfig, isMobile: this.isMobile }
+    })
+    this.setInstance(whiteboard)
+    this.instance.adapterScreen(this.devicePixelRatio)
+    this.instance.init(this.contextConfig)
+    this.instance.bindEvent()
   }
 }
 </script>
