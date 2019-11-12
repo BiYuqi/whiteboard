@@ -73,12 +73,6 @@ export default class Normal {
     if (this.isDrawing) {
       this.context.beginPath()
       this.context.moveTo(this.point.x, this.point.y)
-      this.history.push({
-        x: this.point.x,
-        y: this.point.y,
-        snapshot: this.context.getImageData(0, 0, this.ctx.clientWidth, this.ctx.clientHeight)
-      })
-      this.step++
     }
   }
 
@@ -90,32 +84,30 @@ export default class Normal {
     if (this.isDrawing) {
       this.context.lineTo(this.point.x, this.point.y)
       this.context.stroke()
-      this.history.push({
-        x: this.point.x,
-        y: this.point.y,
-        snapshot: this.context.getImageData(0, 0, this.ctx.clientWidth, this.ctx.clientHeight)
-      })
-      this.step++
     }
   }
 
   end () {
     this.isDrawing = false
+    this.history.push({
+      snapshot: this.context.getImageData(0, 0, this.ctx.clientWidth, this.ctx.clientHeight)
+    })
+    this.step++
   }
 
   undo () {
-    const prev = this.history[this.currentStep - 1]
+    const prev = this.history[this.step - 1]
     if (prev) {
       this.context.putImageData(prev.snapshot, 0, 0)
-      this.currentStep -= 1
+      this.step -= 1
     }
   }
 
   redo () {
-    const next = this.history[this.currentStep + 1]
+    const next = this.history[this.step + 1]
     if (next) {
       this.context.putImageData(next.snapshot, 0, 0)
-      this.currentStep += 1
+      this.step += 1
     }
   }
 }
