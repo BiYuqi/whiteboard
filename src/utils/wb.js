@@ -73,6 +73,8 @@ export default class Normal {
     if (this.isDrawing) {
       this.context.beginPath()
       this.context.moveTo(this.point.x, this.point.y)
+      this.context.lineTo(this.point.x, this.point.y)
+      this.context.stroke()
     }
   }
 
