@@ -58,6 +58,12 @@ export default {
     this.instance.adapterScreen(this.devicePixelRatio)
     this.instance.init(this.contextConfig)
     this.instance.bindEvent()
+  },
+  created () {
+    window.onbeforeunload = function (event) {
+      event.returnValue = false
+      return false
+    }
   }
 }
 </script>
