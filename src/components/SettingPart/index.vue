@@ -29,23 +29,20 @@ export default {
           name: 'download',
           tip: 'Download as Image'
         }
-        // {
-        //   name: 'history',
-        //   tip: 'History'
-        // }
       ]
     }
   },
   computed: {
     ...mapGetters([
       'ctx',
-      'context'
+      'context',
+      'instance'
     ])
   },
   methods: {
     handleClick (type) {
       if (type === 'delete') {
-        this.context.clearRect(0, 0, this.ctx.width, this.ctx.height)
+        this.instance.clear()
       }
     }
   }

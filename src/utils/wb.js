@@ -91,25 +91,40 @@ export default class Normal {
 
   end () {
     this.isDrawing = false
-    this.history.push({
-      snapshot: this.context.getImageData(0, 0, this.ctx.clientWidth, this.ctx.clientHeight)
-    })
     this.step++
+    this.history.push({
+      snapshot: this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
+    })
+    console.log(this.step)
   }
 
   undo () {
-    const prev = this.history[this.step - 1]
+    const prev = this.history[this.step - 2]
+    if (this.step <= 0) {
+      this.step = 0
+      return
+    }
     if (prev) {
       this.context.putImageData(prev.snapshot, 0, 0)
-      this.step -= 1
+      this.step--
     }
   }
 
   redo () {
-    const next = this.history[this.step + 1]
+    if (this.step >= this.history.length) {
+      this.step = this.history.length
+      return
+    }
+    const next = this.history[this.step]
     if (next) {
       this.context.putImageData(next.snapshot, 0, 0)
       this.step += 1
     }
+  }
+
+  clear () {
+    this.context.clearRect(0, 0, this.ctx.width, this.ctx.height)
+    this.step = 0
+    this.history.length = 0
   }
 }

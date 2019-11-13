@@ -46,6 +46,10 @@ export default {
         {
           name: 'undo',
           tip: 'Undo'
+        },
+        {
+          name: 'redo',
+          tip: 'Redo'
         }
       ]
     }
@@ -55,7 +59,8 @@ export default {
       'ctx',
       'context',
       'currentBrush',
-      'strokeStyle'
+      'strokeStyle',
+      'instance'
     ])
   },
   methods: {
@@ -65,7 +70,7 @@ export default {
       'setGlobalCompositeOperation'
     ]),
     setBrush (name) {
-      if (!['undo', 'brush-size'].includes(name)) {
+      if (!['undo', 'redo', 'brush-size'].includes(name)) {
         this.setCurrentBrush(name)
       }
       // 橡皮檫
@@ -78,6 +83,14 @@ export default {
           this.setCurrentBrushColor(this.strokeStyle)
         }
       })
+
+      if (name === 'undo') {
+        this.instance.undo()
+      }
+
+      if (name === 'redo') {
+        this.instance.redo()
+      }
     }
   },
   components: {
