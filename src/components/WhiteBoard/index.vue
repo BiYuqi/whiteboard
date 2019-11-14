@@ -30,10 +30,8 @@ export default {
       'ctx',
       'context',
       'instance',
-      'isMobile',
       'strokeStyle',
       'contextConfig',
-      'devicePixelRatio',
       'currentBrush'
     ])
   },
@@ -52,10 +50,10 @@ export default {
     const whiteboard = new Whiteboard({
       ctx: this.ctx,
       context: this.context,
-      config: { ...this.contextConfig, isMobile: this.isMobile }
+      config: this.contextConfig
     })
     this.setInstance(whiteboard)
-    this.instance.adapterScreen(this.devicePixelRatio)
+    this.instance.resizeCanvas()
     this.instance.init(this.contextConfig)
     this.instance.bindEvent()
   },

@@ -3,15 +3,18 @@ export default class Normal {
     const { ctx, context, config } = props
     this.ctx = ctx
     this.context = context
-    this.config = config
     this.isDrawing = false
     this.point = {}
     this.history = []
     this.step = 0
-  }
 
-  setBrush () {
-
+    this.defaultConfig = {
+      ...config,
+      isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
+      devicePixelRatio: Math.max(window.devicePixelRatio || 1, 1),
+      canvasWidth: window.innerWidth,
+      canvasHeight: window.innerHeight - 54
+    }
   }
 
   bindEvent () {
@@ -28,7 +31,7 @@ export default class Normal {
   }
 
   adaptEvent () {
-    if (this.config.isMobile) {
+    if (this.defaultConfig.isMobile) {
       return {
         start: 'touchstart',
         move: 'touchmove',
@@ -42,18 +45,17 @@ export default class Normal {
     }
   }
 
-  adapterScreen (devicePixelRatio) {
-    const width = window.innerWidth
-    const height = window.innerHeight - 54
+  resizeCanvas () {
+    const { devicePixelRatio, canvasWidth, canvasHeight } = this.defaultConfig
     if (devicePixelRatio) {
-      this.ctx.style.width = `${width}px`
-      this.ctx.style.height = `${height}px`
-      this.ctx.height = height * devicePixelRatio
-      this.ctx.width = width * devicePixelRatio
+      this.ctx.style.width = `${canvasWidth}px`
+      this.ctx.style.height = `${canvasHeight}px`
+      this.ctx.height = canvasHeight * devicePixelRatio
+      this.ctx.width = canvasWidth * devicePixelRatio
       this.context.scale(devicePixelRatio, devicePixelRatio)
     } else {
-      this.ctx.width = width
-      this.ctx.height = height
+      this.ctx.width = canvasWidth
+      this.ctx.height = canvasHeight
     }
   }
 
@@ -95,7 +97,6 @@ export default class Normal {
     this.history.push({
       snapshot: this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
     })
-    console.log(this.step)
   }
 
   undo () {
@@ -126,5 +127,11 @@ export default class Normal {
     this.context.clearRect(0, 0, this.ctx.width, this.ctx.height)
     this.step = 0
     this.history.length = 0
+  }
+
+  toDataURL ({ type = 'image/png', encoderOptions }) {
+    // image/jpeg
+    // image/webp
+    return this.ctx.toDataURL(type, encoderOptions)
   }
 }

@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
-  devicePixelRatio: (window && window.devicePixelRatio) || 1,
   currentBrush: 'pencil',
   currentBrushSize: 10,
   currentCanvasColor: 'rgba(255, 255, 255, 1)',
@@ -60,9 +58,7 @@ const mutations = {
 const getters = {
   ctx: state => state.ctx,
   context: state => state.context,
-  isMobile: state => state.isMobile,
   contextConfig: state => state.contextConfig,
-  devicePixelRatio: state => state.devicePixelRatio,
   strokeStyle: state => state.contextConfig.strokeStyle,
   currentBrush: state => state.currentBrush,
   instance: state => state.instance
