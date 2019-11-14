@@ -7,11 +7,31 @@
       effect="dark"
       :content="tool.tip"
       placement="top">
+      <ul slot="content" class="download" v-if="tool.name === 'download'">
+        <li>Download as PNG</li>
+        <li>Download as JPEP</li>
+        <li>Download as WebP</li>
+      </ul>
       <svg-icon
         :name="tool.name"
         :styles="$store.state.svgInfo"
         @click.native="handleClick(tool.name)"/>
     </el-tooltip>
+    <el-dropdown
+      @command="handleDownload"
+      placement="top"
+      class="tool-box__item">
+      <span>
+        <svg-icon
+          name="download"
+          :styles="$store.state.svgInfo" />
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="image/png">Download as PNG</el-dropdown-item>
+        <el-dropdown-item command="image/jpeg">Download as JPEG</el-dropdown-item>
+        <el-dropdown-item command="image/webp">Download as WebP</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 </template>
 
@@ -24,10 +44,6 @@ export default {
         {
           name: 'delete',
           tip: 'Clear Canvas'
-        },
-        {
-          name: 'download',
-          tip: 'Download as Image'
         }
       ]
     }
@@ -41,9 +57,13 @@ export default {
   },
   methods: {
     handleClick (type) {
-      if (type === 'delete') {
-        this.instance.clear()
-      }
+      this.instance.clear()
+    },
+    handleDownload (type) {
+      const a = document.createElement('a')
+      a.download = 'whiteboard-' + Date.now()
+      a.href = this.instance.toDataURL(type, 1)
+      a.click()
     }
   }
 }
@@ -60,6 +80,11 @@ export default {
   &__setting {
     cursor: pointer;
     color: $activeToolBoxColor;
+  }
+  &__item {
+    &.el-dropdown {
+      color: $toolBoxColor;
+    }
   }
 }
 </style>

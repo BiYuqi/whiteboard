@@ -129,7 +129,7 @@ export default class Normal {
     this.history.length = 0
   }
 
-  toDataURL ({ type = 'image/png', encoderOptions }) {
+  toDataURL (type, encoderOptions) {
     // image/jpeg
     // image/webp
     return this.ctx.toDataURL(type, encoderOptions)
