@@ -23,7 +23,11 @@ export default class Normal {
   bindEvent () {
     const { start, move, end } = this.adaptEvent()
     this.ctx.addEventListener(start, this.start.bind(this), false)
-    this.ctx.addEventListener(move, this.move.bind(this), false)
+    this.ctx.addEventListener(move, requestAnimationFrame ? (e) => {
+      requestAnimationFrame(() => {
+        this.move(e)
+      })
+    } : this.move.bind(this), false)
     this.ctx.addEventListener(end, this.end.bind(this), false)
   }
 
