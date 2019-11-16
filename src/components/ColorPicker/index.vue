@@ -28,19 +28,16 @@
         :predefine="predefineColors">
       </el-color-picker>
     </el-tooltip>
-    <el-tooltip
+    <el-popover
       class="tool-box__item"
-      effect="dark"
-      content="Pencil Size"
-      placement="top">
-      <el-input-number
-        v-model="pencilSize"
-        size="small"
-        controls-position="right"
-        @change="handleChange"
-        :min="1">
-      </el-input-number>
-    </el-tooltip>
+      placement="top"
+      trigger="hover">
+      <div class="block">
+        <span class="demonstration">Pencil Size</span>
+        <el-slider v-model="pencilSize" @change="handleChange"></el-slider>
+      </div>
+      <svg-icon slot="reference" name="sizes" :styles="$store.state.svgInfo" />
+    </el-popover>
   </div>
 </template>
 
