@@ -1,13 +1,13 @@
 <template>
   <div class="tool-box__draw">
-    <el-popover
+    <!-- <el-popover
       class="tool-box__item"
       placement="top"
       title="Select Brush"
       trigger="hover">
       <svg-icon slot="reference" name="brush-size" :styles="$store.state.svgInfo" />
     </el-popover>
-    <div class="tool-box__split-part"></div>
+    <div class="tool-box__split-part"></div> -->
     <el-tooltip
       class="tool-box__item"
       v-for="(item, index) in toolBox"

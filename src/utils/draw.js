@@ -1,3 +1,5 @@
+import GuideLine from './guideLine'
+
 export default class Normal {
   constructor (props) {
     const { ctx, context, config } = props
@@ -9,6 +11,10 @@ export default class Normal {
     this.mouseDown = {}
     this.history = []
     this.step = 0
+    this.guideline = new GuideLine({
+      ctx,
+      context
+    })
 
     this.defaultConfig = {
       isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
@@ -78,10 +84,10 @@ export default class Normal {
     this.context.closePath()
   }
 
-  offset () {
+  offset (e) {
     return {
-      left: this.ctx.getBoundingClientRect().left,
-      top: this.ctx.getBoundingClientRect().top
+      left: e.clientX - this.ctx.getBoundingClientRect().left,
+      top: e.clientY - this.ctx.getBoundingClientRect().top
     }
   }
 
@@ -91,12 +97,10 @@ export default class Normal {
 
   start (e) {
     e.preventDefault()
-    const { left, top } = this.offset()
+    const { left, top } = this.offset(e)
     this.isDrawing = true
-    this.point.x = e.clientX - left
-    this.point.y = e.clientY - top
-    this.mouseDown.x = e.clientX - left
-    this.mouseDown.y = e.clientY - top
+    this.point.x = this.mouseDown.x = left
+    this.point.y = this.mouseDown.y = top
 
     if (this.defaultConfig.strightLine) {
       this.originImageData = this.getImageData()
@@ -116,13 +120,14 @@ export default class Normal {
 
   move (e) {
     e.preventDefault()
-    const { left, top } = this.offset()
-    this.point.x = e.clientX - left
-    this.point.y = e.clientY - top
+    const { left, top } = this.offset(e)
+    this.point.x = left
+    this.point.y = top
 
     if (this.isDrawing) {
       if (this.defaultConfig.strightLine) {
         this.drawLine()
+        this.guideline.drawGuideLine(this.point.x, this.point.y)
       } else {
         this.context.lineTo(this.point.x, this.point.y)
         this.context.stroke()
@@ -132,14 +137,13 @@ export default class Normal {
 
   end () {
     this.step++
-    this.isDrawing = false
     this.history.push({
       snapshot: this.getImageData()
     })
-
     if (this.defaultConfig.strightLine) {
       this.drawLine()
     }
+    this.isDrawing = false
   }
 
   undo () {

@@ -5,7 +5,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import { eraser } from '../../utils/eraser'
-import Whiteboard from '../../utils/wb'
+import Whiteboard from '../../utils/draw'
 export default {
   watch: {
     contextConfig: {
