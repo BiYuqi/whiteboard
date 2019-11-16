@@ -31,6 +31,7 @@
     <el-popover
       class="tool-box__item"
       placement="top"
+      width="260"
       trigger="hover">
       <div class="block">
         <span class="demonstration">Pencil Size</span>
@@ -48,7 +49,7 @@ export default {
     return {
       pencilColor: this.$store.state.contextConfig.strokeStyle,
       canvasColor: this.$store.state.currentCanvasColor,
-      pencilSize: this.$store.state.currentBrushSize,
+      pencilSize: this.$store.state.contextConfig.lineWidth,
       predefineColors: [
         '#FF0000',
         '#FF7F00',

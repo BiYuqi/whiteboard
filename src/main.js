@@ -12,7 +12,10 @@ import {
   Slider,
   Popover,
   Button,
-  InputNumber
+  Drawer,
+  Card,
+  Row,
+  Col
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -28,7 +31,10 @@ Vue.use(DropdownItem)
 Vue.use(Slider)
 Vue.use(Popover)
 Vue.use(Button)
-Vue.use(InputNumber)
+Vue.use(Drawer)
+Vue.use(Card)
+Vue.use(Row)
+Vue.use(Col)
 
 new Vue({
   router,

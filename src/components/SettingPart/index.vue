@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -51,8 +51,18 @@ export default {
     ])
   },
   methods: {
+    ...mapMutations([
+      'setCurrentSnapShot'
+    ]),
     handleClick (type) {
-      this.instance.clear()
+      this.setCurrentSnapShot({
+        name: Date.now(),
+        base64: this.instance.toDataURL(),
+        imageData: this.instance.getImageData()
+      })
+      setTimeout(() => {
+        this.instance.clear()
+      }, 0)
     },
     handleDownload (type) {
       const a = document.createElement('a')

@@ -4,8 +4,8 @@ Vue.use(Vuex)
 
 const state = {
   currentBrush: 'pencil',
-  currentBrushSize: 10,
   currentCanvasColor: 'rgba(255, 255, 255, 1)',
+  currentSnapShot: [],
   svgInfo: {
     fontSize: '28px'
   },
@@ -17,7 +17,7 @@ const state = {
   instance: null,
   contextConfig: {
     globalCompositeOperation: 'source-over',
-    lineWidth: 10,
+    lineWidth: 4,
     strokeStyle: 'rgba(34, 34, 34, 1)',
     lineCap: 'round',
     lineJoin: 'round',
@@ -38,7 +38,6 @@ const mutations = {
     state.currentCanvasColor = status
   },
   setCurrentBrushSize (state, size) {
-    state.currentBrushSize = size
     state.contextConfig.lineWidth = size
   },
   setGlobalCompositeOperation (state, opt) {
@@ -52,6 +51,9 @@ const mutations = {
   },
   setInstance (state, instance) {
     state.instance = instance
+  },
+  setCurrentSnapShot (state, imageData) {
+    state.currentSnapShot.push(imageData)
   }
 }
 
@@ -61,7 +63,8 @@ const getters = {
   contextConfig: state => state.contextConfig,
   strokeStyle: state => state.contextConfig.strokeStyle,
   currentBrush: state => state.currentBrush,
-  instance: state => state.instance
+  instance: state => state.instance,
+  currentSnapShot: state => state.currentSnapShot
 }
 
 const store = new Vuex.Store({

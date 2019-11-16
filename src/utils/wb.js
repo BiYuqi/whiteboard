@@ -64,7 +64,7 @@ export default class Normal {
 
   drawLine () {
     if (this.defaultConfig.strightLine && this.isDrawing) {
-      this.context.putImageData(this.originImageData, 0, 0, 0, 0, this.ctx.width, this.ctx.height)
+      this.putImageData(this.originImageData)
     }
 
     this.context.beginPath()
@@ -95,7 +95,7 @@ export default class Normal {
     this.mouseDown.y = e.clientY - top
 
     if (this.defaultConfig.strightLine) {
-      this.originImageData = this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
+      this.originImageData = this.getImageData()
     } else {
       this.originImageData = null
     }
@@ -130,7 +130,7 @@ export default class Normal {
     this.step++
     this.isDrawing = false
     this.history.push({
-      snapshot: this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
+      snapshot: this.getImageData()
     })
 
     if (this.defaultConfig.strightLine) {
@@ -145,7 +145,7 @@ export default class Normal {
       return
     }
     if (prev) {
-      this.context.putImageData(prev.snapshot, 0, 0)
+      this.putImageData(prev.snapshot)
       this.step--
     }
   }
@@ -157,7 +157,7 @@ export default class Normal {
     }
     const next = this.history[this.step]
     if (next) {
-      this.context.putImageData(next.snapshot, 0, 0)
+      this.putImageData(next.snapshot)
       this.step += 1
     }
   }
@@ -168,9 +168,15 @@ export default class Normal {
     this.history.length = 0
   }
 
-  toDataURL (type, encoderOptions) {
-    // image/jpeg
-    // image/webp
+  toDataURL (type = 'image/png', encoderOptions = 1) {
     return this.ctx.toDataURL(type, encoderOptions)
+  }
+
+  getImageData () {
+    return this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
+  }
+
+  putImageData (imageData) {
+    this.context.putImageData(imageData, 0, 0)
   }
 }

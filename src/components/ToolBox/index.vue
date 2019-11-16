@@ -8,6 +8,7 @@
       <color-picker />
       <div class="tool-box__split-part"></div>
       <concat-me />
+      <ware-house />
     </div>
   </div>
 </template>
@@ -17,12 +18,14 @@ import BrushPanel from '../BrushPanel'
 import ColorPicker from '../ColorPicker'
 import SettingPart from '../SettingPart'
 import ConcatMe from '../ConcatMe'
+import WareHouse from '../WareHouse'
 export default {
   components: {
     ColorPicker,
     BrushPanel,
     SettingPart,
-    ConcatMe
+    ConcatMe,
+    WareHouse
   }
 }
 </script>

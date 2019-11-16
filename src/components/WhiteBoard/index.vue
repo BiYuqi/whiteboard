@@ -41,7 +41,8 @@ export default {
       'setCanvasContext',
       'setInstance',
       'setCurrentBrushColor',
-      'setGlobalCompositeOperation'
+      'setGlobalCompositeOperation',
+      'setCurrentSnapShot'
     ])
   },
   mounted () {
