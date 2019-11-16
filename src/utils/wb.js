@@ -4,16 +4,19 @@ export default class Normal {
     this.ctx = ctx
     this.context = context
     this.isDrawing = false
+    this.originImageData = null
     this.point = {}
+    this.mouseDown = {}
     this.history = []
     this.step = 0
 
     this.defaultConfig = {
-      ...config,
       isMobile: /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent),
       devicePixelRatio: Math.max(window.devicePixelRatio || 1, 1),
       canvasWidth: window.innerWidth,
-      canvasHeight: window.innerHeight - 54
+      canvasHeight: window.innerHeight - 54,
+      strightLine: false,
+      ...config
     }
   }
 
@@ -59,11 +62,27 @@ export default class Normal {
     }
   }
 
+  drawLine () {
+    if (this.defaultConfig.strightLine && this.isDrawing) {
+      this.context.putImageData(this.originImageData, 0, 0, 0, 0, this.ctx.width, this.ctx.height)
+    }
+
+    this.context.beginPath()
+    this.context.moveTo(this.mouseDown.x, this.mouseDown.y)
+    this.context.lineTo(this.point.x, this.point.y)
+    this.context.stroke()
+    this.context.closePath()
+  }
+
   offset () {
     return {
       left: this.ctx.getBoundingClientRect().left,
       top: this.ctx.getBoundingClientRect().top
     }
+  }
+
+  setLine (status) {
+    this.defaultConfig.strightLine = status
   }
 
   start (e) {
@@ -72,7 +91,18 @@ export default class Normal {
     this.isDrawing = true
     this.point.x = e.clientX - left
     this.point.y = e.clientY - top
-    if (this.isDrawing) {
+    this.mouseDown.x = e.clientX - left
+    this.mouseDown.y = e.clientY - top
+
+    if (this.defaultConfig.strightLine) {
+      this.originImageData = this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
+    } else {
+      this.originImageData = null
+    }
+
+    if (this.defaultConfig.strightLine) {
+      this.drawLine()
+    } else {
       this.context.beginPath()
       this.context.moveTo(this.point.x, this.point.y)
       this.context.lineTo(this.point.x, this.point.y)
@@ -85,18 +115,27 @@ export default class Normal {
     const { left, top } = this.offset()
     this.point.x = e.clientX - left
     this.point.y = e.clientY - top
+
     if (this.isDrawing) {
-      this.context.lineTo(this.point.x, this.point.y)
-      this.context.stroke()
+      if (this.defaultConfig.strightLine) {
+        this.drawLine()
+      } else {
+        this.context.lineTo(this.point.x, this.point.y)
+        this.context.stroke()
+      }
     }
   }
 
   end () {
-    this.isDrawing = false
     this.step++
+    this.isDrawing = false
     this.history.push({
       snapshot: this.context.getImageData(0, 0, this.ctx.width, this.ctx.height)
     })
+
+    if (this.defaultConfig.strightLine) {
+      this.drawLine()
+    }
   }
 
   undo () {

@@ -5,7 +5,6 @@
       placement="top"
       title="Select Brush"
       trigger="hover">
-      <brush-type />
       <svg-icon slot="reference" name="brush-size" :styles="$store.state.svgInfo" />
     </el-popover>
     <div class="tool-box__split-part"></div>
@@ -25,7 +24,6 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import BrushType from '../BrushType'
 import { eraser } from '../../utils/eraser'
 export default {
   data () {
@@ -73,7 +71,7 @@ export default {
       if (!['undo', 'redo', 'brush-size'].includes(name)) {
         this.setCurrentBrush(name)
       }
-      // 橡皮檫
+      // // 橡皮檫
       eraser({
         currentBrush: this.currentBrush,
         context: this.context,
@@ -91,10 +89,13 @@ export default {
       if (name === 'redo') {
         this.instance.redo()
       }
+
+      if (name === 'line') {
+        this.instance.setLine(true)
+      } else {
+        this.instance.setLine(false)
+      }
     }
-  },
-  components: {
-    BrushType
   }
 }
 </script>
