@@ -7,11 +7,6 @@
       effect="dark"
       :content="tool.tip"
       placement="top">
-      <ul slot="content" class="download" v-if="tool.name === 'download'">
-        <li>Download as PNG</li>
-        <li>Download as JPEP</li>
-        <li>Download as WebP</li>
-      </ul>
       <svg-icon
         :name="tool.name"
         :styles="$store.state.svgInfo"
