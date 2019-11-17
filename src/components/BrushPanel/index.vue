@@ -24,7 +24,6 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import { eraser } from '../../utils/eraser'
 export default {
   data () {
     return {
@@ -68,19 +67,9 @@ export default {
       'setGlobalCompositeOperation'
     ]),
     setBrush (name) {
-      if (!['undo', 'redo', 'brush-size'].includes(name)) {
+      if (!['undo', 'redo'].includes(name)) {
         this.setCurrentBrush(name)
       }
-      // // 橡皮檫
-      eraser({
-        currentBrush: this.currentBrush,
-        context: this.context,
-        strokeStyle: this.strokeStyle,
-        callback: () => {
-          this.setGlobalCompositeOperation('source-over')
-          this.setCurrentBrushColor(this.strokeStyle)
-        }
-      })
 
       if (name === 'undo') {
         this.instance.undo()
@@ -88,6 +77,10 @@ export default {
 
       if (name === 'redo') {
         this.instance.redo()
+      }
+
+      if (name === 'eraser') {
+        this.instance.eraser()
       }
 
       if (name === 'line') {

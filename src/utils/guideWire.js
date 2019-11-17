@@ -1,4 +1,4 @@
-export default class GuideLine {
+export default class GuideWire {
   constructor (props) {
     this.ctx = props.ctx
     this.context = props.context

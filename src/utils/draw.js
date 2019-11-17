@@ -1,4 +1,4 @@
-import GuideLine from './guideLine'
+import GuideWire from './guideWire'
 
 export default class Normal {
   constructor (props) {
@@ -11,7 +11,7 @@ export default class Normal {
     this.mouseDown = {}
     this.history = []
     this.step = 0
-    this.guideline = new GuideLine({
+    this.guideline = new GuideWire({
       ctx,
       context
     })
@@ -174,6 +174,12 @@ export default class Normal {
     this.context.clearRect(0, 0, this.ctx.width, this.ctx.height)
     this.step = 0
     this.history.length = 0
+  }
+
+  eraser () {
+    this.context.globalCompositeOperation = 'destination-out'
+    this.context.strokeStyle = 'rgba(0, 0, 0, 1)'
+    this.context.lineWidth = this.defaultConfig.lineWidth * 4
   }
 
   toDataURL (type = 'image/png', encoderOptions = 1) {

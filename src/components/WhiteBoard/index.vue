@@ -4,23 +4,21 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import { eraser } from '../../utils/eraser'
 import Whiteboard from '../../utils/draw'
 export default {
   watch: {
     contextConfig: {
-      handler (oldValue, newValue) {
+      handler (newValue, oldValue) {
         this.instance.init(this.contextConfig)
-        // 橡皮檫
-        eraser({
-          currentBrush: this.currentBrush,
-          context: this.context,
-          strokeStyle: this.strokeStyle,
-          callback: () => {
-            this.setGlobalCompositeOperation('source-over')
-            this.setCurrentBrushColor(this.strokeStyle)
-          }
-        })
+      },
+      deep: true
+    },
+    currentBrush: {
+      handler (newValue, oldValue) {
+        console.log({ oldValue, newValue })
+        if (newValue !== 'eraser') {
+          this.instance.init(this.contextConfig)
+        }
       },
       deep: true
     }
