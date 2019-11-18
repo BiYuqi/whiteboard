@@ -35,7 +35,7 @@
       trigger="hover">
       <div class="block">
         <span class="demonstration">Pencil Size</span>
-        <el-slider v-model="pencilSize" @change="handleChange"></el-slider>
+        <el-slider :max="500" v-model="pencilSize" @change="handleChange"></el-slider>
       </div>
       <svg-icon slot="reference" name="sizes" :styles="$store.state.svgInfo" />
     </el-popover>
