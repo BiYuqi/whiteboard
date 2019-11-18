@@ -21,7 +21,7 @@ export default class GuideWire {
   drawGuideLine (x, y) {
     this.context.save()
     this.context.lineWidth = 0.5
-    this.context.strokeStyle = 'rgba(102, 205, 170, 1)'
+    this.context.strokeStyle = 'rgba(0, 255, 255, 1)'
     this.drawVerticalLine(x)
     this.drawHorizontalLine(y)
     this.context.restore()

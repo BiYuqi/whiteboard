@@ -1,5 +1,8 @@
 <template>
-  <canvas class="whiteboard" ref="whiteboard"></canvas>
+  <canvas
+    class="whiteboard"
+    ref="whiteboard"
+    :class="[dynamicBrush]"></canvas>
 </template>
 
 <script>
@@ -15,7 +18,6 @@ export default {
     },
     currentBrush: {
       handler (newValue, oldValue) {
-        console.log({ oldValue, newValue })
         if (newValue !== 'eraser') {
           this.instance.init(this.contextConfig)
         }
@@ -31,7 +33,10 @@ export default {
       'strokeStyle',
       'contextConfig',
       'currentBrush'
-    ])
+    ]),
+    dynamicBrush () {
+      return `whiteboard__${this.currentBrush}`
+    }
   },
   methods: {
     ...mapMutations([
@@ -69,6 +74,17 @@ export default {
 .whiteboard {
   width: 100%;
   height: calc(100% - 54px);
-  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAElBMVEVHcEz29vY0NDT///9JSUmMjIwE7TzkAAAABnRSTlMAJJcLekY8Ss1wAAAAWUlEQVRYw+3SQQrAMAhE0ejo/a9cF4HS7mKgofDfJtmMGOMYAAD8hyzT1M9beAlr5ysrVZVuhYjnud6AvS6L0uf45NktoNlBnnmC7iHq0DduL9L+KgMA8LkLvxkA1Dm6Y8EAAAAASUVORK5CYII=") 32 32, auto;
+
+  &__pencil {
+    cursor: url(../../assets/cusor/circle.svg) 8 8, auto;
+  }
+
+  &__line {
+    cursor: url(../../assets/cusor/crosshair.svg) 8 8, auto;
+  }
+
+  &__eraser {
+    cursor: url(../../assets/cusor/eraser.svg) 8 8, auto;
+  }
 }
 </style>

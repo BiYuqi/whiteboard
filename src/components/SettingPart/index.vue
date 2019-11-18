@@ -22,9 +22,9 @@
           :styles="$store.state.svgInfo" />
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="image/png">Download as PNG</el-dropdown-item>
-        <el-dropdown-item command="image/jpeg">Download as JPEG</el-dropdown-item>
-        <el-dropdown-item command="image/webp">Download as WebP</el-dropdown-item>
+        <el-dropdown-item command="image/png">PNG</el-dropdown-item>
+        <el-dropdown-item command="image/jpeg">JPEG</el-dropdown-item>
+        <el-dropdown-item command="image/webp">WebP</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
