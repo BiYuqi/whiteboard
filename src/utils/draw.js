@@ -136,14 +136,17 @@ export default class Normal {
   }
 
   end () {
-    this.step++
-    this.history.push({
-      snapshot: this.getImageData()
-    })
     if (this.defaultConfig.strightLine) {
       this.drawLine()
     }
     this.isDrawing = false
+
+    if (!this.isDrawing) {
+      this.step++
+      this.history.push({
+        snapshot: this.getImageData()
+      })
+    }
   }
 
   undo () {

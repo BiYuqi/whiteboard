@@ -85,7 +85,9 @@ export default {
 
       if (name === 'line') {
         this.instance.setLine(true)
-      } else {
+      }
+
+      if (name === 'pencil') {
         this.instance.setLine(false)
       }
     }
